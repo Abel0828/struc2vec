@@ -20,8 +20,8 @@ def get_data(args):
     logging.info('Training size {}:, test size: {}, test ratio: {}'.format(int(train_mask.sum()), int(test_mask.sum()), args.test_ratio))
     nx.write_edgelist(G, 'graph/{}{}.edgelist'.format(args.dataset, args.seed))
     args.dataset = args.dataset + str(args.seed)
-    args.input = '.'.join([args.dataset, 'edgelist'])
-    args.output = '.'.join([args.dataset, 'emb'])
+    args.input = 'graph/{}.edgelist'.format(args.dataset)
+    args.output = 'emb/{}.emb'.format(args.dataset)
     return G, labels, set_indices, train_mask, test_mask
 
 
