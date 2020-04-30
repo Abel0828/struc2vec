@@ -151,7 +151,7 @@ def main(args):
 	set_up_log(args)
 	set_random_seed(args)
 	_, labels, set_indices, train_mask, test_mask = get_data(args) # get train/test mask, set indices; store the processed graph as .edgelist
-	if args.use_cache is None:
+	if not args.use_cache:
 		optimize_struc2vec_embeddings(args) # pack original code
 	set_random_seed(args)
 	features = load_features(args, set_indices)  # shape: [N, set_size, F]
