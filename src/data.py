@@ -98,7 +98,7 @@ def generate_set_indices_labels(G, task, test_ratio):
     test_pos_indices = random.sample(range(n_pos_edges), pos_test_size)  # randomly pick pos edges for test
     test_neg_indices = list(range(n_pos_edges, n_pos_edges + pos_test_size))  # pick first pos_test_size neg edges for test
     test_mask = get_mask(test_pos_indices + test_neg_indices, length=2*n_pos_edges)
-    train_mask = np.ones_like(test_mask) - test_mask
+    train_mask = ~test_mask
     labels = np.concatenate([np.ones((n_pos_edges, )), np.zeros((n_pos_edges, ))]).astype(np.int32)
     G.remove_edges_from([node_pair for set_index in list(set_indices[test_pos_indices]) for node_pair in combinations(set_index, 2)])
 
