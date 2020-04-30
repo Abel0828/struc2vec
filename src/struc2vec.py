@@ -220,14 +220,14 @@ class Graph():
 		if(len(self.G) > 500000):
 
 			with ProcessPoolExecutor(max_workers=1) as executor:
-				job = executor.submit(generate_random_walks_large_graphs,num_walks,walk_length,self.workers,self.G.keys())
+				job = executor.submit(generate_random_walks_large_graphs,num_walks,walk_length,self.workers,list(self.G.keys()))
 
 				job.result()
 
 		else:
 
 			with ProcessPoolExecutor(max_workers=1) as executor:
-				job = executor.submit(generate_random_walks,num_walks,walk_length,self.workers,self.G.keys())
+				job = executor.submit(generate_random_walks,num_walks,walk_length,self.workers,list(self.G.keys()))
 
 				job.result()
 
