@@ -166,7 +166,7 @@ def preprocess_degreeLists():
     dFrequency = {}
     for v,layers in degreeList.items():
         dFrequency[v] = {}
-        for layer,degreeListLayer in layers.():
+        for layer,degreeListLayer in layers.items():
             dFrequency[v][layer] = {}
             for degree in degreeListLayer:
                 if(degree not in dFrequency[v][layer]):
