@@ -1,35 +1,35 @@
 for seed in {0..9}
 do
-  python src/main.py --dataset foodweb --directed --seed $seed --gpu $seed --test_ratio 0.2 --bs 128
+  python src/main.py --dataset foodweb --directed --seed $seed --gpu $seed --test_ratio 0.2 --bs 128 --epoch 3000
 done
 wait
 
 for seed in {0..9}
 do
-  python src/main.py --dataset celegans --seed $seed --gpu $seed --test_ratio 0.1 --bs 128
+  python src/main.py --dataset celegans --seed $seed --gpu $seed --test_ratio 0.1 --bs 128 --epoch 1000
 done
 wait
 
 for seed in {0..9}
 do
-  python src/main.py --dataset grid --seed $seed --gpu $seed --test_ratio 0.1 --bs 128
+  python src/main.py --dataset grid --seed $seed --gpu $seed --test_ratio 0.1 --bs 128 --epoch 1000
 done
 wait
 
 for seed in {0..9}
 do
-  python src/main.py --dataset celegans_tri --seed $seed --gpu $seed --test_ratio 0.1 --bs 128
+  python src/main.py --dataset celegans_tri --seed $seed --gpu $seed --test_ratio 0.1 --bs 128 --epoch 1000
 done
 wait
 
 for seed in {0..9}
 do
-  python src/main.py --dataset triangular_grid_tri --seed $seed --gpu $seed --test_ratio 0.1 --bs 128
+  python src/main.py --dataset triangular_grid_tri --seed $seed --gpu $seed --test_ratio 0.1 --bs 128 --epoch 1000
 done
 wait
 
 for seed in {0..9}
 do
-  python src/main.py --dataset foodweb_tri --directed --seed $seed --gpu $seed --test_ratio 0.1 --bs 128
+  python src/main.py --dataset foodweb_tri --directed --seed $seed --gpu $seed --test_ratio 0.1 --bs 128 --epoch 2000
 done
 wait

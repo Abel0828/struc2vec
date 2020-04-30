@@ -34,7 +34,7 @@ def parse_args():
 	parser.add_argument('--dataset', type=str, default='celegans', help='dataset name')
 	parser.add_argument('--seed', type=int, default=0, help='seed to initialize all the random modules')
 	parser.add_argument('--test_ratio', type=float, default=0.1, help='ratio of the test against whole')
-	parser.add_argument('--epoch', type=int, default=1000, help='number of epochs')
+	parser.add_argument('--epoch', type=int, default=3000, help='number of epochs')
 	parser.add_argument('--gpu', type=int, default=0, help='gpu id')
 	parser.add_argument('--bs', type=int, default=128, help='minibatch size')
 	parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
