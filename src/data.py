@@ -5,6 +5,7 @@ import random
 from itertools import combinations
 import logging
 
+
 def get_data(args):
     (G, labels), task = read_file(args)
     if labels is None:

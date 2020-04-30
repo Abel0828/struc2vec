@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from time import time
 import logging,inspect
-import cPickle as pickle
+import pickle
 from itertools import islice
 import os.path
-import numpy as np
-import random
 
 dir_f = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 folder_pickles = dir_f+"/../pickles/"
@@ -18,7 +16,7 @@ def isPickle(fname):
 
 def chunks(data, SIZE=10000):
     it = iter(data)
-    for i in xrange(0, len(data), SIZE):
+    for i in range(0, len(data), SIZE):
         yield {k:data[k] for k in islice(it, SIZE)}
 
 def partition(lst, n):

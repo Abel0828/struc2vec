@@ -10,6 +10,9 @@ from io import open
 from os import path
 from time import time
 from glob import glob
+
+from scipy.io import loadmat
+from scipy.sparse import issparse
 from six.moves import range, zip, zip_longest
 from six import iterkeys
 from collections import defaultdict, Iterable
@@ -38,7 +41,7 @@ class Graph(defaultdict):
     return self.keys()
 
   def adjacency_iter(self):
-    return self.iteritems()
+    return self.items()
 
   def subgraph(self, nodes={}):
     subgraph = Graph()
@@ -124,12 +127,12 @@ class Graph(defaultdict):
 
   def gToDict(self):
     d = {}
-    for k,v in self.iteritems():
+    for k,v in self.items():
       d[k] = v
     return d
 
   def printAdjList(self):
-    for key,value in self.iteritems():
+    for key,value in self.items():
       print (key,":",value)
 
 
