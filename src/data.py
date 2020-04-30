@@ -11,7 +11,7 @@ def get_data(args):
     if labels is None:
         logging.info('Labels unavailable. Generating training/test instances from dataset ...')
         G, labels, set_indices, (train_mask, test_mask) = generate_set_indices_labels(G, task, test_ratio=args.test_ratio)
-        logging.info(' Generate {} pos/neg training & test instances in total.'.format(set_indices.shape[0]))
+        logging.info('Generate {} pos/neg training & test instances in total.'.format(set_indices.shape[0]))
     else:
         # training on nodes or running on synthetic data
         logging.info('Labels available (node-level task) or no need to train model')
@@ -20,7 +20,8 @@ def get_data(args):
     logging.info('Training size {}:, test size: {}, test ratio: {}'.format(int(train_mask.sum()), int(test_mask.sum()), args.test_ratio))
     nx.write_edgelist(G, 'graph/{}{}.edgelist'.format(args.dataset, args.seed))
     args.dataset = args.dataset + str(args.seed)
-
+    args.input = '.'.join([args.dataset, 'edgelist'])
+    args.output = '.'.join([args.dataset, 'emb'])
     return G, labels, set_indices, train_mask, test_mask
 
 

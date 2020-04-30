@@ -79,8 +79,6 @@ def parse_args():
 
 	parser.add_argument('--log_dir', type=str, default='./log/', help='root directory for storing logs')  # sp (shortest path) or rw (random walk)
 	args = parser.parse_args()
-	args.input = '.'.join([args.dataset, 'edgelist'])
-	args.output = '.'.join([args.dataset, 'emb'])
 	return args
 
 def read_graph(args):
