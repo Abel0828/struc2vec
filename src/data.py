@@ -165,7 +165,7 @@ def load_features(args, set_indices):
     dataset = args.dataset
     f_path = 'emb/{}.emb'.format(dataset)
     embeddings = read_embeddings(f_path)
-    features = embeddings[set_indices:]
+    features = embeddings[set_indices, :]
     return features
 
 
