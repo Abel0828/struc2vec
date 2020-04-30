@@ -23,8 +23,8 @@ class MLP(nn.Module):
         self.linear_out = nn.Linear(input_dim, output_dim)
 
     def forward(self, x):
-        N, SS, F = x.shape
-        x = x.view(-1, F)
+        N, SS, F_ = x.shape
+        x = x.view(-1, F_)
         x = F.normalize(self.act(self.linear(x)), dim=-1, p=2)
         x = x.view(N, SS, -1)
         x = torch.prod(x, dim=1)
