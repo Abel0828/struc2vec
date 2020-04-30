@@ -437,7 +437,7 @@ def exec_bfs(G,workers,calcUntilLayer):
     degreeList = {}
 
     t0 = time()
-    vertices = G.keys()
+    vertices = list(G.keys())
     parts = workers
     chunks = partition(vertices,parts)
 
