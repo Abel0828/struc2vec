@@ -40,7 +40,7 @@ def parse_args():
 	parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
 	parser.add_argument('--l2', type=float, default=0, help='l2 regularization weight')
 	parser.add_argument('--use_cache', action='store_true', help='whether to use cached embeddings')
-	parser.add_argument('--workers', type=int, default=8,
+	parser.add_argument('--workers', type=int, default=30,
 	                    help='Number of parallel workers. Default is 8.')
 	parser.add_argument('--directed', dest='directed', action='store_true',
 	                    help='Graph is (un)directed. Default is undirected.')
