@@ -178,14 +178,14 @@ def read_embeddings(f_path):
             if i == 0:
                 nnodes, dim = [int(s) for s in line.strip().split()[:2]]
             else:
-                embedding = [float(s) for s in line.strip().split()[:1]]
+                embedding = [float(s) for s in line.strip().split()]
                 embeddings.append(np.array(embedding[1:]))
                 node_ids.append(int(embedding[0]))
     embeddings = np.stack(embeddings)
     node_ids = np.array(node_ids)
     assert(embeddings.shape[0] == nnodes)
-    assert (embeddings.shape[1] == dim)
+    assert(embeddings.shape[1] == dim)
     assert(len(np.unique(node_ids)) == nnodes)
-    assert (node_ids.max() == nnodes-1)
+    assert(node_ids.max() == nnodes-1)
     embeddings = embeddings[node_ids, :]
     return embeddings
