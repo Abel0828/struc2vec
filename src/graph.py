@@ -283,7 +283,7 @@ def from_adjlist_unchecked(adjlist):
 
 def from_dict(d):
     G = Graph()
-    for k,v in d.iteritems():
+    for k,v in d.items():
       G[k] = v
 
     return G
