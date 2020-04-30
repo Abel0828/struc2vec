@@ -18,9 +18,9 @@ def create_model(features, labels):
 class MLP(nn.Module):
     def __init__(self, input_dim, output_dim):
         super(MLP, self).__init__()
-        self.linear = nn.Linear(input_dim, input_dim)
+        self.linear = nn.Linear(input_dim, output_dim)
         self.act = nn.ReLU()
-        self.linear_out = nn.Linear(input_dim, output_dim)
+        self.linear_out = nn.Linear(output_dim, output_dim)
 
     def forward(self, x):
         N, SS, F_ = x.shape

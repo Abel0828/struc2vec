@@ -40,6 +40,7 @@ def parse_args():
 	parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
 	parser.add_argument('--l2', type=float, default=0, help='l2 regularization weight')
 	parser.add_argument('--use_cache', action='store_true', help='whether to use cached embeddings')
+
 	parser.add_argument('--input', nargs='?', default='graph/karate.edgelist',
 	                    help='Input graph path')
 
@@ -64,7 +65,7 @@ def parse_args():
 	parser.add_argument('--iter', default=5, type=int,
                       help='Number of epochs in SGD')
 
-	parser.add_argument('--workers', type=int, default=4,
+	parser.add_argument('--workers', type=int, default=8,
 	                    help='Number of parallel workers. Default is 8.')
 
 	parser.add_argument('--weighted', dest='weighted', action='store_true',

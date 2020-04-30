@@ -64,6 +64,7 @@ def train(model, features, labels, train_mask, test_mask, args):
 
 
 def compute_acc(predictions, labels):
-    correct_prediction = (torch.argmax(predictions, dim=1) == labels)
-    acc = correct_prediction.float().sum().item() / labels.size(0)
+    with torch.no_grad():
+        correct_prediction = (torch.argmax(predictions, dim=1) == labels)
+        acc = correct_prediction.float().sum().item() / labels.size(0)
     return acc

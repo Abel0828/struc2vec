@@ -96,11 +96,11 @@ class Graph():
 		vertices = list(reversed(sorted(self.G.keys())))
 
 		if(compactDegree):
-		    logging.info("Recovering degreeList from disk...")
-		    degreeList = restoreVariableFromDisk('compactDegreeList')
+			logging.info("Recovering degreeList from disk...")
+			degreeList = restoreVariableFromDisk('compactDegreeList')
 		else:
-		    logging.info("Recovering compactDegreeList from disk...")
-		    degreeList = restoreVariableFromDisk('degreeList')
+			logging.info("Recovering compactDegreeList from disk...")
+			degreeList = restoreVariableFromDisk('degreeList')
 
 		parts = self.workers
 		chunks = partition(vertices,parts)
