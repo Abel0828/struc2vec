@@ -481,7 +481,7 @@ def generate_distances_network_part1(workers):
 
         logging.info('Part {} executed.'.format(part))
 
-    for layer,values in weights_distances.iteritems():
+    for layer,values in weights_distances.items():
         saveVariableOnDisk(values,'weights_distances-layer-'+str(layer))
     return
 
