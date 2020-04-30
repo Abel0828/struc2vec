@@ -37,7 +37,7 @@ def train(model, features, labels, train_mask, test_mask, args):
             minibatch = torch.from_numpy(shuffled_index[count: min(count + bs, n_train_samples)]).long().to(device)
             count = count + bs
             prediction = model(train_features[minibatch])
-            loss = criterion(prediction, labels[minibatch], reduction='mean')
+            loss = criterion(prediction, train_labels[minibatch], reduction='mean')
             loss.backward()
             optimizer.step()
 
