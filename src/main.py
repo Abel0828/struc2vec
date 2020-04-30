@@ -17,6 +17,10 @@ import os
 
 def set_random_seed(args):
     seed = args.seed
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
     np.random.seed(seed)
     random.seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
@@ -35,6 +39,7 @@ def parse_args():
 	parser.add_argument('--bs', type=int, default=128, help='minibatch size')
 	parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
 	parser.add_argument('--l2', type=float, default=0, help='l2 regularization weight')
+	parser.add_argument('--use_cache', action='store_true', help='whether to use cached embeddings')
 	parser.add_argument('--input', nargs='?', default='graph/karate.edgelist',
 	                    help='Input graph path')
 
@@ -146,7 +151,9 @@ def main(args):
 	set_up_log(args)
 	set_random_seed(args)
 	_, labels, set_indices, train_mask, test_mask = get_data(args) # get train/test mask, set indices; store the processed graph as .edgelist
-	optimize_struc2vec_embeddings(args) # pack original code
+	if args.use_cache is None:
+		optimize_struc2vec_embeddings(args) # pack original code
+	set_random_seed(args)
 	features = load_features(args, set_indices)  # shape: [N, set_size, F]
 	model = create_model(features, labels)
 	best_test_acc = train(model, features, labels, train_mask, test_mask, args)
