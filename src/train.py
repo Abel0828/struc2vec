@@ -5,11 +5,12 @@ import logging
 import numpy as np
 
 
-def send_to_device(features, labels, train_mask, test_mask, device):
+def send_to_device(model, features, labels, train_mask, test_mask, device):
+    model.to(device)
     train_features = torch.from_numpy(features[train_mask]).float().to(device)
     test_features = torch.from_numpy(features[test_mask]).float().to(device)
     train_labels = torch.from_numpy(labels[train_mask]).long().to(device)
-    test_labels = torch.from_numpy(features[test_mask]).to(device)
+    test_labels = torch.from_numpy(labels[test_mask]).to(device)
     labels = torch.from_numpy(labels).long().to(device)
     features = torch.from_numpy(features).float().to(device)
     train_mask = torch.from_numpy(train_mask).bool().to(device)
@@ -19,7 +20,7 @@ def send_to_device(features, labels, train_mask, test_mask, device):
 
 def train(model, features, labels, train_mask, test_mask, args):
     device = torch.device('cuda:{}'.format(args.gpu) if torch.cuda.is_available() else 'cpu')
-    data = send_to_device(features, labels, train_mask, test_mask, device)
+    data = send_to_device(model, features, labels, train_mask, test_mask, device)
     features, train_features, test_features, train_labels, test_labels, labels, train_mask, test_mask = data
     criterion = torch.nn.functional.cross_entropy
     optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, weight_decay=args.l2)

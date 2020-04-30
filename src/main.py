@@ -33,6 +33,8 @@ def parse_args():
 	parser.add_argument('--epoch', type=int, default=300, help='number of epochs')
 	parser.add_argument('--gpu', type=int, default=0, help='gpu id')
 	parser.add_argument('--bs', type=int, default=128, help='minibatch size')
+	parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
+	parser.add_argument('--l2', type=float, default=0, help='l2 regularization weight')
 	parser.add_argument('--input', nargs='?', default='graph/karate.edgelist',
 	                    help='Input graph path')
 
