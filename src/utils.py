@@ -4,6 +4,8 @@ import logging,inspect
 import cPickle as pickle
 from itertools import islice
 import os.path
+import numpy as np
+import random
 
 dir_f = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 folder_pickles = dir_f+"/../pickles/"
@@ -43,8 +45,6 @@ def saveVariableOnDisk(f,name):
     logging.info('Variable saved. Time: {}m'.format((t1-t0)/60))
 
     return
-
-
 
 
 

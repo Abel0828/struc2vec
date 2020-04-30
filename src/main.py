@@ -1,23 +1,38 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 import argparse, logging
 import numpy as np
 import struc2vec
 from gensim.models import Word2Vec
 from gensim.models.word2vec import LineSentence
 from time import time
-
+from log import set_up_log
+from data import *
+from train import *
+from model import *
 import graph
+import random
+import os
 
-logging.basicConfig(filename='struc2vec.log',filemode='w',level=logging.DEBUG,format='%(asctime)s %(message)s')
+
+def set_random_seed(args):
+    seed = args.seed
+    np.random.seed(seed)
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+
 
 def parse_args():
 	'''
 	Parses the struc2vec arguments.
 	'''
 	parser = argparse.ArgumentParser(description="Run struc2vec.")
-
+	parser.add_argument('--dataset', type=str, default='celegans', help='dataset name')
+	parser.add_argument('--seed', type=int, default=0, help='seed to initialize all the random modules')
+	parser.add_argument('--test_ratio', type=float, default=0.1, help='ratio of the test against whole')
+	parser.add_argument('--epoch', type=int, default=300, help='number of epochs')
+	parser.add_argument('--gpu', type=int, default=0, help='gpu id')
+	parser.add_argument('--bs', type=int, default=128, help='minibatch size')
 	parser.add_argument('--input', nargs='?', default='graph/karate.edgelist',
 	                    help='Input graph path')
 
@@ -60,10 +75,15 @@ def parse_args():
 	parser.add_argument('--OPT2', default=False, type=bool,
                       help='optimization 2')
 	parser.add_argument('--OPT3', default=False, type=bool,
-                      help='optimization 3')	
-	return parser.parse_args()
+                      help='optimization 3')
 
-def read_graph():
+	parser.add_argument('--log_dir', type=str, default='./log/', help='root directory for storing logs')  # sp (shortest path) or rw (random walk)
+	args = parser.parse_args()
+	args.input = '.'.join([args.dataset, 'edgelist'])
+	args.output = '.'.join([args.dataset, 'emb'])
+	return args
+
+def read_graph(args):
 	'''
 	Reads the input network.
 	'''
@@ -81,7 +101,7 @@ def learn_embeddings():
 	model = Word2Vec(walks, size=args.dimensions, window=args.window_size, min_count=0, hs=1, sg=1, workers=args.workers, iter=args.iter)
 	model.wv.save_word2vec_format(args.output)
 	logging.info("Representations created.")
-	
+
 	return
 
 def exec_struc2vec(args):
@@ -93,8 +113,8 @@ def exec_struc2vec(args):
 	else:
 		until_layer = None
 
-	G = read_graph()
-	G = struc2vec.Graph(G, args.directed, args.workers, untilLayer = until_layer)
+	G = read_graph(args)
+	G = struc2vec.Graph(G, args.directed, args.workers, untilLayer=until_layer)
 
 	if(args.OPT1):
 		G.preprocess_neighbors_with_bfs_compact()
@@ -116,11 +136,20 @@ def exec_struc2vec(args):
 
 	return G
 
-def main(args):
 
+def optimize_struc2vec_embeddings(args):
 	G = exec_struc2vec(args)
-
 	learn_embeddings()
+
+
+def main(args):
+	set_up_log(args)
+	set_random_seed(args)
+	_, labels, set_indices, train_mask, test_mask = get_data(args) # get train/test mask, set indices; store the processed graph as .edgelist
+	optimize_struc2vec_embeddings(args) # pack original code
+	features = load_features(args, set_indices)  # shape: [N, set_size, F]
+	model = create_model(features, labels)
+	best_test_acc = train(model, features, labels, train_mask, test_mask, args)
 
 
 if __name__ == "__main__":
