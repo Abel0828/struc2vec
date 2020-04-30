@@ -19,12 +19,13 @@ class MLP(nn.Module):
     def __init__(self, input_dim, output_dim):
         super(MLP, self).__init__()
         self.linear = nn.Linear(input_dim, input_dim)
+        self.act = nn.ReLU()
         self.linear_out = nn.Linear(input_dim, output_dim)
 
     def forward(self, x):
         N, SS, F = x.shape
         x = x.view(-1, F)
-        x = self.linear(x)
+        x = self.act(self.linear(x))
         x = x.view(N, SS, -1)
         x = torch.prod(x, dim=1)
         x = self.linear_out(x)
