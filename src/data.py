@@ -17,6 +17,9 @@ def get_data(args):
         logging.info('Labels available (node-level task) or no need to train model')
         set_indices = np.expand_dims(np.arange(G.number_of_nodes()), 1)
         train_mask, test_mask = split_dataset(set_indices.shape[0], test_ratio=args.test_ratio)
+    for nid, deg in G.degree():
+        if deg == 0:
+            G.add_edge(nid, nid) # make sure disconnected nodes appear in edge list
     logging.info('Training size {}:, test size: {}, test ratio: {}'.format(int(train_mask.sum()), int(test_mask.sum()), args.test_ratio))
     nx.write_edgelist(G, 'graph/{}{}.edgelist'.format(args.dataset, args.seed))
     args.dataset = args.dataset + str(args.seed)
@@ -170,22 +173,22 @@ def load_features(args, set_indices):
 
 
 def read_embeddings(f_path):
-    embeddings = []
+    embeddings = None
     node_ids = []
     nnodes, dim = -1, -1
     with open(f_path, 'r') as f:
         for i, line in enumerate(f.readlines()):
             if i == 0:
                 nnodes, dim = [int(s) for s in line.strip().split()[:2]]
+                embeddings = np.zeros((nnodes, dim))
             else:
                 embedding = [float(s) for s in line.strip().split()]
-                embeddings.append(np.array(embedding[1:]))
-                node_ids.append(int(embedding[0]))
-    embeddings = np.stack(embeddings)
+                node_id = int(embedding[0])
+                embeddings[node_id] = np.array(embedding[1:])
+                node_ids.append(node_id)
     node_ids = np.array(node_ids)
     assert(embeddings.shape[0] == nnodes)
     assert(embeddings.shape[1] == dim)
     assert(len(np.unique(node_ids)) == nnodes)
     assert(node_ids.max() == nnodes-1)
-    embeddings = embeddings[node_ids, :]
     return embeddings
