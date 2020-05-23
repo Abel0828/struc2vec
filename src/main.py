@@ -33,13 +33,14 @@ def parse_args():
 	parser = argparse.ArgumentParser(description="Run struc2vec.")
 	parser.add_argument('--dataset', type=str, default='celegans', help='dataset name')
 	parser.add_argument('--seed', type=int, default=0, help='seed to initialize all the random modules')
-	parser.add_argument('--test_ratio', type=float, default=0.1, help='ratio of the test against whole')
+	parser.add_argument('--test_ratio', type=float, default=0.2, help='ratio of the test against whole')
 	parser.add_argument('--epoch', type=int, default=3000, help='number of epochs')
 	parser.add_argument('--gpu', type=int, default=0, help='gpu id')
 	parser.add_argument('--bs', type=int, default=128, help='minibatch size')
 	parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
 	parser.add_argument('--l2', type=float, default=0, help='l2 regularization weight')
 	parser.add_argument('--use_cache', action='store_true', help='whether to use cached embeddings')
+	parser.add_argument('--metric', type=str, default='auc', help='hidden dimension', choices=['acc', 'auc'])
 	parser.add_argument('--workers', type=int, default=30,
 	                    help='Number of parallel workers. Default is 8.')
 	parser.add_argument('--directed', dest='directed', action='store_true',
