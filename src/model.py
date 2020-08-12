@@ -20,7 +20,7 @@ class MLP(nn.Module):
         super(MLP, self).__init__()
         self.linear = nn.Linear(input_dim, output_dim)
         self.act = nn.ReLU()
-        self.linear_out = nn.Linear(output_dim, output_dim)
+        self.linear_out = nn.Sequential(nn.Linear(output_dim, output_dim), nn.LogSoftmax())
 
     def forward(self, x):
         N, SS, F_ = x.shape
