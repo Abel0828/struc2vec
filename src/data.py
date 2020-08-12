@@ -31,7 +31,7 @@ def get_data(args):
 def read_file(args):
     dataset = args.dataset
     di_flag = args.directed
-    if dataset in ['brazil-airports', 'europe-airports', 'usa-airports', 'foodweb']:
+    if dataset in ['brazil-airports', 'europe-airports', 'usa-airports', 'foodweb', 'actor']:
         task = 'node_classification'
     elif dataset in ['arxiv', 'celegans', 'celegans_small', 'facebook', 'ns', 'pb', 'power', 'router', 'usair', 'yeast', 'grid']:
         task = 'link_prediction'
